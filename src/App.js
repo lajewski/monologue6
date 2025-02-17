@@ -45,4 +45,10 @@ const apiUrl = `http://dataservice.accuweather.com/forecasts/v1/daily/5day/${loc
   );
 }
 
+
+console.log("API Key:", process.env.REACT_APP_API_KEY);
+console.log("Location Key:", process.env.REACT_APP_LOCATION_KEY);
+console.log("API URL:", `https://dataservice.accuweather.com/forecasts/v1/daily/5day/${process.env.REACT_APP_LOCATION_KEY}?apikey=${process.env.REACT_APP_API_KEY}&metric=false`);
+
+
 export default App;
