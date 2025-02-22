@@ -11,15 +11,6 @@ const apiKey = process.env.REACT_APP_API_KEY;
 const apiUrl = `https://dataservice.accuweather.com/forecasts/v1/daily/5day/${locationKey}?apikey=${apiKey}&metric=false`;
 
   useEffect(() => {
-
-      // Log values inside useEffect to confirm client-side execution
-      console.log("API Key:", apiKey);
-      console.log("Location Key:", locationKey);
-      console.log("API URL:", apiUrl);
-
-
-
-
     fetch(apiUrl)
       .then(response => {
         if (!response.ok) {
