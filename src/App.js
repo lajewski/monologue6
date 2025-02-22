@@ -8,7 +8,7 @@ function App() {
 // get 5 day forecast  
 const locationKey = process.env.REACT_APP_LOCATION_KEY;
 const apiKey = process.env.REACT_APP_API_KEY;
-const apiUrl = `http://dataservice.accuweather.com/forecasts/v1/daily/5day/${locationKey}?apikey=${apiKey}&metric=false`;
+const apiUrl = `https://dataservice.accuweather.com/forecasts/v1/daily/5day/${locationKey}?apikey=${apiKey}&metric=false`;
 
   useEffect(() => {
 
