@@ -1,39 +1,37 @@
 .App {
   text-align: center;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+  background-color: black;
+  color: white;
+  min-height: 100vh;
+  padding: 20px;
 }
 
 .tabs {
-  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
 }
 
 .tab {
   margin: 10px;
-  padding: 10px 20px;
-  background-color: #282c34;
+  padding: 12px 24px;
+  background-color: #333;
   color: white;
   text-decoration: none;
-  border-radius: 5px;
-  font-size: 18px;
+  border-radius: 8px;
+  font-size: 20px;
+  transition: background 0.3s;
 }
 
 .tab:hover {
   background-color: #61dafb;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
 h1 {
-  font-size: 2rem;
+  font-size: 2.5rem;
   margin: 20px 0;
+  font-weight: 600;
 }
 
 ul {
@@ -41,22 +39,42 @@ ul {
   padding: 0;
 }
 
-li {
-  background-color: #333;
-  margin: 10px;
-  padding: 10px;
-  border-radius: 5px;
-}
-
-body {
-  background-color: black;
-  color: white;
-  min-height: 100vh;
-  margin: 0;
+.forecast-list, .hourly-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
   padding: 20px;
 }
 
+.forecast-item, .hourly-item {
+  background-color: #222;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+}
+
 p {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   margin: 10px 0;
 }
+
+.error {
+  color: red;
+  font-weight: bold;
+}
+
+.accuweather {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+  gap: 10px;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.accuweather-logo {
+  width: 150px;
+  height: auto;
+}
+
