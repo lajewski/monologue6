@@ -32,6 +32,37 @@ function App() {
       .catch(error => setError(error.message));
   }, []);
 
+  // Function to get the day initials and date number
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const dayNumber = date.getDate();
+    const dayNames = ['Su', 'M', 'T', 'W', 'R', 'F', 'Sa'];
+    const dayInitial = dayNames[date.getDay()];
+
+    return (
+      <div>
+        <div>{dayInitial}</div>
+        <div>{dayNumber}</div>
+      </div>
+    );
+  };
+
+  // Function to format the time
+  const formatTime = (dateTimeString) => {
+    const date = new Date(dateTimeString);
+    const timeString = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    return timeString;
+  };
+
+  // Function to chunk array into smaller arrays
+  const chunkArray = (array, chunkSize) => {
+    const result = [];
+    for (let i = 0; i < array.length; i += chunkSize) {
+      result.push(array.slice(i, i + chunkSize));
+    }
+    return result;
+  };
+
   return (
     <Router>
       <div className="App">
@@ -51,14 +82,19 @@ function App() {
                 <p className="error">{error}</p>
               ) : weatherData ? (
                 <ul className="forecast-list">
-                  {weatherData.DailyForecasts.map((day, index) => (
-                    <li key={index} className="forecast-item">
-                      <h2>{new Date(day.Date).toDateString()}</h2>
-                      <p>Min: {day.Temperature.Minimum.Value}°{day.Temperature.Minimum.Unit}</p>
-                      <p>Max: {day.Temperature.Maximum.Value}°{day.Temperature.Maximum.Unit}</p>
-                      <p>{day.Day.IconPhrase}</p>
-                    </li>
-                  ))}
+                  {weatherData.DailyForecasts.map((day, index) => {
+                    const iconNumber = String(day.Day.Icon).padStart(2, '0');
+                    const iconUrl = `https://developer.accuweather.com/sites/default/files/${iconNumber}-s.png`;
+
+                    return (
+                      <li key={index} className="forecast-item">
+                        <h2>{formatDate(day.Date)}</h2>
+                        <p>Max: {day.Temperature.Maximum.Value}°{day.Temperature.Maximum.Unit}</p>
+                        <p>Min: {day.Temperature.Minimum.Value}°{day.Temperature.Minimum.Unit}</p>
+                        <img src={iconUrl} alt={day.Day.IconPhrase} />
+                      </li>
+                    );
+                  })}
                 </ul>
               ) : (
                 <p>Loading weather data...</p>
@@ -68,15 +104,42 @@ function App() {
               {error ? (
                 <p className="error">{error}</p>
               ) : hourlyData ? (
-                <ul className="hourly-list">
-                  {hourlyData.map((hour, index) => (
-                    <li key={index} className="hourly-item">
-                      <h3>{new Date(hour.DateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</h3>
-                      <p>Temp: {hour.Temperature.Value}°{hour.Temperature.Unit}</p>
-                      <p>{hour.IconPhrase}</p>
-                    </li>
-                  ))}
-                </ul>
+                chunkArray(hourlyData, 4).map((chunk, chunkIndex) => (
+                  <ul key={chunkIndex} className="hourly-list">
+                    {chunk.map((hour, index) => {
+                      const iconNumber = String(hour.WeatherIcon).padStart(2, '0');
+                      const iconUrl = `https://developer.accuweather.com/sites/default/files/${iconNumber}-s.png`;
+
+                      let precipIntensity = '';
+                      if (hour.PrecipitationIntensity) {
+                        switch (hour.PrecipitationIntensity.toLowerCase()) {
+                          case 'light':
+                            precipIntensity = 'lite';
+                            break;
+                          case 'moderate':
+                            precipIntensity = 'mod';
+                            break;
+                          case 'heavy':
+                            precipIntensity = 'hvy';
+                            break;
+                          default:
+                            precipIntensity = hour.PrecipitationIntensity.toLowerCase(); // use default if not mapped
+                        }
+                      }
+
+                      return (
+                        <li key={index} className="hourly-item">
+                          <h3>{formatTime(hour.DateTime)}</h3>
+                          <p>Temp: {hour.Temperature.Value}°{hour.Temperature.Unit}</p>
+                          <img src={iconUrl} alt={hour.IconPhrase} />
+                          {hour.HasPrecipitation && (
+                            <p>Precip: {hour.PrecipitationProbability}%, {precipIntensity}</p>
+                          )}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                ))
               ) : (
                 <p>Loading hourly data...</p>
               )}

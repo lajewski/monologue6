@@ -3,59 +3,68 @@
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
   background-color: black;
   color: white;
-  min-height: 100vh;
-  padding: 20px;
+  height: 100vh;
+  padding: 10px;
+  overflow-y: auto; /* Allow vertical scrolling */
 }
 
 .tabs {
   display: flex;
-  justify-content: center;
-  margin: 20px 0;
+  justify-content: space-around;
+  margin: 10px 0;
 }
 
 .tab {
-  margin: 10px;
-  padding: 12px 24px;
+  margin: 5px;
+  padding: 8px 16px;
   background-color: #333;
   color: white;
   text-decoration: none;
   border-radius: 8px;
-  font-size: 20px;
-  transition: background 0.3s;
-}
-
-.tab:hover {
-  background-color: #61dafb;
+  font-size: 16px;
 }
 
 h1 {
-  font-size: 2.5rem;
-  margin: 20px 0;
-  font-weight: 600;
+  font-size: 1.8rem;
+  margin: 10px 0;
 }
 
 ul {
   list-style-type: none;
   padding: 0;
+  margin: 0;
 }
 
 .forecast-list, .hourly-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
-  padding: 20px;
+  grid-template-columns: repeat(5, 1fr); /* Ensure consistent column sizing */
+  gap: 5px;
+  padding: 0 10px;
+  margin: 0 auto;
 }
 
 .forecast-item, .hourly-item {
   background-color: #222;
-  padding: 15px;
+  padding: 8px;
   border-radius: 10px;
   text-align: center;
+  box-sizing: border-box;
+  border: 1px solid #444; /* Add border for distinction */
+}
+
+.forecast-item h2, .hourly-item h3 {
+  font-size: 0.75rem;
+}
+
+.forecast-item img, .hourly-item img {
+  width: 50px;
+  height: auto;
+  margin-top: 5px;
 }
 
 p {
-  font-size: 1.2rem;
-  margin: 10px 0;
+  font-size: 0.8rem;
+  margin: 3px 0;
 }
 
 .error {
@@ -67,14 +76,23 @@ p {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 30px;
-  gap: 10px;
-  font-size: 1.2rem;
-  font-weight: 500;
+  margin-top: 20px;
+  gap: 5px;
+  font-size: 0.8rem;
 }
 
 .accuweather-logo {
-  width: 150px;
+  width: 80px;
   height: auto;
 }
 
+/* Media query for smaller screens, like iPhone 6 */
+@media (max-width: 375px) {
+  .forecast-list, .hourly-list {
+    grid-template-columns: repeat(5, 1fr); /* Ensure all 5 items fit on one row */
+  }
+
+  .tab {
+    font-size: 14px;
+  }
+}
