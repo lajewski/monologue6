@@ -19,7 +19,7 @@ function App() {
       })
       .then(data => setWeatherData(data))
       .catch(error => setError(error.message));
-  }, []);
+}, [locationKey, apiKey]); // Include locationKey and apiKey
 
   // Fetch 12-hour forecast
   useEffect(() => {
@@ -30,7 +30,7 @@ function App() {
       })
       .then(data => setHourlyData(data))
       .catch(error => setError(error.message));
-  }, []);
+}, [locationKey, apiKey]); // Include locationKey and apiKey
 
   // Function to get the day initials and date number
   const formatDate = (dateString) => {
